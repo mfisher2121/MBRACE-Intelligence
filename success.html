@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Incentive Scan is Ready | MBRACE Intelligence</title>
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #22c55e;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 32px;
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: scaleIn 0.5s ease;
+        }
+        
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+        
+        .amount-box {
+            background: var(--primary-light);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            border: 1px solid var(--border);
+        }
+        
+        .amount-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .amount {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .amount-note {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+        
+        .next-steps {
+            background: var(--primary-light);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        
+        .next-steps h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .step-num {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .step-content p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .footer {
+            margin-top: 32px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        @media (max-width: 500px) {
+            .amount { font-size: 32px; }
+            h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">MBRACE INTELLIGENCE</div>
+        
+        <div class="success-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="3">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+        </div>
+        
+        <h1>Your Incentive Scan is Processing</h1>
+        <p class="subtitle">We're analyzing your property against Maryland's incentive programs.</p>
+        
+        <div class="amount-box">
+            <div class="amount-label">Typical Eligibility Range</div>
+            <div class="amount">$12,000 – $28,000+</div>
+            <p class="amount-note">Your personalized breakdown is on the way</p>
+        </div>
+        
+        <div class="next-steps">
+            <h2>What Happens Next</h2>
+            
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Check Your Phone</h3>
+                    <p>We'll text a summary within the next few minutes</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Full Report by Email</h3>
+                    <p>A detailed PDF with program breakdown, amounts, and your personalized checklist arrives within 2 hours</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Questions? Just Reply</h3>
+                    <p>Reply to the text or email — a real person will respond, not a bot</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>MBRACE Intelligence • Maryland Building Electrification Data</p>
+            <p style="margin-top: 8px;">
+                <a href="/">← Submit another property</a>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Conversion tracking (uncomment for production) -->
+    <!--
+    <script>
+        // Meta Pixel conversion
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Lead');
+        }
+        
+        // Google Ads conversion
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-XXXXXXXXX/XXXXXXXXX'
+            });
+        }
+    </script>
+    -->
+</body>
+</html>

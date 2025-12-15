@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maryland Heat Pump Incentive Calculator | MBRACE Intelligence</title>
+    <meta name="description" content="Find out how much you qualify for in Maryland heat pump incentives. Most homeowners and building owners leave $15,000-$30,000+ unclaimed.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Maryland Heat Pump Incentive Calculator">
+    <meta property="og:description" content="Most Maryland property owners leave $15,000-$30,000+ in incentives unclaimed. Find out what you qualify for before rules tighten.">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #22c55e;
+            --accent-hover: #16a34a;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --success: #22c55e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .logo {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        
+        .header h1 span {
+            color: var(--accent);
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Trust Bar */
+        .trust-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+        
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .trust-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 32px;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        
+        /* Form Card */
+        .form-card {
+            background: var(--primary-light);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--border);
+        }
+        
+        /* Steps */
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .step-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-family: inherit;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 44px;
+        }
+        
+        /* Option Cards */
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .option-grid.single-col {
+            grid-template-columns: 1fr;
+        }
+        
+        .option-card {
+            position: relative;
+            padding: 16px;
+            background: var(--primary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option-card:hover {
+            border-color: var(--text-muted);
+        }
+        
+        .option-card.selected {
+            border-color: var(--accent);
+            background: rgba(34, 197, 94, 0.05);
+        }
+        
+        .option-card input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .option-card .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .option-card .title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .option-card .desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+        
+        .btn-primary:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--text);
+        }
+        
+        /* Helper Text */
+        .helper-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        
+        .helper-text.error {
+            color: var(--error);
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .info-box.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+        
+        .info-box p {
+            font-size: 13px;
+            color: var(--text);
+        }
+        
+        .info-box strong {
+            color: var(--accent);
+        }
+        
+        .info-box.warning strong {
+            color: var(--warning);
+        }
+        
+        /* Contact Form */
+        .contact-intro {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .contact-intro .big-text {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        
+        .privacy-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+        
+        .privacy-note svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        /* Results */
+        .results-container {
+            text-align: center;
+        }
+        
+        .results-header {
+            margin-bottom: 32px;
+        }
+        
+        .results-header .check-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        
+        .results-header h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .results-amount {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 24px 0;
+        }
+        
+        .results-breakdown {
+            background: var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: left;
+            margin: 24px 0;
+        }
+        
+        .results-breakdown h3 {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .breakdown-item .label {
+            font-size: 14px;
+        }
+        
+        .breakdown-item .value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .next-steps {
+            background: var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: left;
+            margin-top: 24px;
+        }
+        
+        .next-steps h3 {
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .next-steps ul {
+            list-style: none;
+        }
+        
+        .next-steps li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        
+        .next-steps li .num {
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading p {
+            margin-top: 16px;
+            color: var(--text-muted);
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 24px 16px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .form-card {
+                padding: 24px 20px;
+            }
+            
+            .option-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .trust-bar {
+                gap: 16px;
+            }
+            
+            .results-amount {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MBRACE INTELLIGENCE</div>
+            <h1>Most Maryland property owners leave <span>$15,000–$30,000+</span> unclaimed</h1>
+            <p class="subtitle">See what you qualify for before Maryland's heat pump rules tighten in 2025-2026.</p>
+        </div>
+        
+        <!-- Trust Bar -->
+        <div class="trust-bar">
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>No contractors</span>
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                <span>2 minutes</span>
+            </div>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <span>Free scan</span>
+            </div>
+        </div>
+        
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            <div class="progress-text">
+                <span id="step-label">Step 1 of 6</span>
+                <span id="step-name">Property Address</span>
+            </div>
+        </div>
+        
+        <!-- Form Card -->
+        <div class="form-card">
+            <form id="calculator-form">
+                <!-- Step 1: Address -->
+                <div class="step active" data-step="1">
+                    <h2 class="step-title">What's the property address?</h2>
+                    <p class="step-subtitle">We use this to identify your utility territory and local programs.</p>
+                    
+                    <div class="form-group">
+                        <label for="address">Street Address</label>
+                        <input type="text" id="address" name="address" placeholder="123 Main Street" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" placeholder="Baltimore" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select state</option>
+                            <option value="MD" selected>Maryland</option>
+                            <option value="DC">Washington, DC</option>
+                            <option value="VA">Virginia</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="zip">ZIP Code</label>
+                        <input type="text" id="zip" name="zip" placeholder="21201" maxlength="5" required>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Building Type -->
+                <div class="step" data-step="2">
+                    <h2 class="step-title">What type of building is this?</h2>
+                    <p class="step-subtitle">Different building types qualify for different incentive programs.</p>
+                    
+                    <div class="option-grid">
+                        <label class="option-card">
+                            <input type="radio" name="building_type" value="single_family" required>
+                            <div class="icon">🏠</div>
+                            <div class="title">Single Family Home</div>
+                            <div class="desc">Detached house, townhouse, or condo</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="building_type" value="2-4_unit">
+                            <div class="icon">🏘️</div>
+                            <div class="title">2-4 Unit Building</div>
+                            <div class="desc">Duplex, triplex, or fourplex</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="building_type" value="5+_multifamily">
+                            <div class="icon">🏢</div>
+                            <div class="title">5+ Unit Multifamily</div>
+                            <div class="desc">Apartment building or complex</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="building_type" value="nonprofit">
+                            <div class="icon">🏛️</div>
+                            <div class="title">Nonprofit Building</div>
+                            <div class="desc">Church, school, clinic, community center</div>
+                        </label>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Utility -->
+                <div class="step" data-step="3">
+                    <h2 class="step-title">Who is your electric utility?</h2>
+                    <p class="step-subtitle">Each utility has different EmPOWER incentive programs and amounts.</p>
+                    
+                    <div class="option-grid single-col">
+                        <label class="option-card">
+                            <input type="radio" name="utility" value="BGE" required>
+                            <div class="title">BGE (Baltimore Gas & Electric)</div>
+                            <div class="desc">Baltimore City, Baltimore County, Central MD</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="utility" value="Pepco">
+                            <div class="title">Pepco</div>
+                            <div class="desc">Montgomery County, Prince George's County, DC</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="utility" value="Potomac Edison">
+                            <div class="title">Potomac Edison</div>
+                            <div class="desc">Western Maryland (Frederick, Washington, Allegany)</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="utility" value="SMECO">
+                            <div class="title">SMECO</div>
+                            <div class="desc">Southern Maryland (Charles, Calvert, St. Mary's)</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="utility" value="Other">
+                            <div class="title">Other / Not Sure</div>
+                            <div class="desc">We'll determine this from your address</div>
+                        </label>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Heating System -->
+                <div class="step" data-step="4">
+                    <h2 class="step-title">What's your current heating system?</h2>
+                    <p class="step-subtitle">This determines your potential savings and incentive eligibility.</p>
+                    
+                    <div class="form-group">
+                        <label for="heating_system">Primary Heating Source</label>
+                        <select id="heating_system" name="heating_system" required>
+                            <option value="">Select heating type</option>
+                            <option value="gas">Natural Gas Furnace</option>
+                            <option value="oil">Oil Furnace/Boiler</option>
+                            <option value="propane">Propane</option>
+                            <option value="electric_resistance">Electric Baseboard / Resistance</option>
+                            <option value="existing_heat_pump">Existing Heat Pump</option>
+                            <option value="not_sure">Not Sure</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="system_age">How old is your heating system?</label>
+                        <select id="system_age" name="system_age" required>
+                            <option value="">Select age range</option>
+                            <option value="<10">Less than 10 years</option>
+                            <option value="10-15">10-15 years</option>
+                            <option value="15-20">15-20 years</option>
+                            <option value="20+">20+ years</option>
+                            <option value="not_sure">Not Sure</option>
+                        </select>
+                    </div>
+                    
+                    <div class="info-box warning" id="age-warning" style="display: none;">
+                        <p><strong>⚠️ Heads up:</strong> Systems 15+ years old are likely to need replacement before Maryland's ZEHES mandate takes effect in 2029. Acting now maximizes your incentive capture.</p>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+                    </div>
+                </div>
+                
+                <!-- Step 5: Income -->
+                <div class="step" data-step="5">
+                    <h2 class="step-title">What's your household income range?</h2>
+                    <p class="step-subtitle">This determines which federal and state programs you qualify for. Low and moderate income households can receive significantly higher incentives.</p>
+                    
+                    <div class="info-box">
+                        <p><strong>Why we ask:</strong> The IRA's HEEHR program covers up to 100% of costs for households under 80% AMI. This is the difference between $2,000 and $14,000+ in rebates.</p>
+                    </div>
+                    
+                    <div class="option-grid single-col">
+                        <label class="option-card">
+                            <input type="radio" name="income_level" value="under_80_ami" required>
+                            <div class="title">Under 80% Area Median Income</div>
+                            <div class="desc">Example: Under ~$75,000 for a family of 4 in Baltimore area</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="income_level" value="80_150_ami">
+                            <div class="title">80-150% Area Median Income</div>
+                            <div class="desc">Example: ~$75,000-$140,000 for a family of 4</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="income_level" value="over_150_ami">
+                            <div class="title">Over 150% Area Median Income</div>
+                            <div class="desc">Still eligible for utility rebates and federal tax credits</div>
+                        </label>
+                        
+                        <label class="option-card">
+                            <input type="radio" name="income_level" value="prefer_not_to_say">
+                            <div class="title">Prefer Not to Say</div>
+                            <div class="desc">We'll show you all possible programs</div>
+                        </label>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                        <button type="button" class="btn btn-primary" onclick="nextStep()">Continue</button>
+                    </div>
+                </div>
+                
+                <!-- Step 6: Contact (Gate) -->
+                <div class="step" data-step="6">
+                    <div class="contact-intro">
+                        <div class="big-text" id="preview-amount">$12,500 - $24,000+</div>
+                        <p style="color: var(--text-muted);">Estimated incentive eligibility based on your inputs</p>
+                    </div>
+                    
+                    <h2 class="step-title">Where should we send your full report?</h2>
+                    <p class="step-subtitle">We'll send a detailed breakdown with program names, amounts, and your personalized next-step checklist.</p>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(410) 555-1234" required>
+                        <p class="helper-text">We'll text your scan results for faster delivery</p>
+                    </div>
+                    
+                    <div class="form-group" id="org-name-group" style="display: none;">
+                        <label for="org_name">Organization Name</label>
+                        <input type="text" id="org_name" name="org_name" placeholder="Your nonprofit's name">
+                    </div>
+                    
+                    <div class="privacy-note">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span>We don't share your information with contractors or third parties. MBRACE is an independent intelligence service — not an installer.</span>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="prevStep()">Back</button>
+                        <button type="submit" class="btn btn-primary">Get My Incentive Report</button>
+                    </div>
+                </div>
+                
+                <!-- Loading State -->
+                <div class="step" data-step="loading">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Calculating your incentive eligibility...</p>
+                    </div>
+                </div>
+                
+                <!-- Results -->
+                <div class="step" data-step="results">
+                    <div class="results-container">
+                        <div class="results-header">
+                            <div class="check-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="3">
+                                    <polyline points="20 6 9 17 4 12"/>
+                                </svg>
+                            </div>
+                            <h2>Your Incentive Scan is Ready</h2>
+                            <p style="color: var(--text-muted);">We're sending the full report to your email and phone.</p>
+                        </div>
+                        
+                        <div class="results-amount" id="results-total">$18,500 - $27,000</div>
+                        
+                        <div class="results-breakdown">
+                            <h3>Program Breakdown</h3>
+                            <div id="breakdown-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="next-steps">
+                            <h3>What Happens Next</h3>
+                            <ul>
+                                <li>
+                                    <span class="num">1</span>
+                                    <span>Check your phone — we just texted a summary</span>
+                                </li>
+                                <li>
+                                    <span class="num">2</span>
+                                    <span>Full PDF report arrives by email within 2 hours</span>
+                                </li>
+                                <li>
+                                    <span class="num">3</span>
+                                    <span>Reply to either with questions — a real person responds</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>MBRACE Intelligence • Maryland Building Electrification Data</p>
+            <p style="margin-top: 8px;">Questions? Reply to your report email or text.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Configuration
+        const CONFIG = {
+            webhookUrl: 'YOUR_N8N_WEBHOOK_URL', // Replace with actual webhook
+            totalSteps: 6
+        };
+        
+        // State
+        let currentStep = 1;
+        let formData = {};
+        
+        // DOM Elements
+        const form = document.getElementById('calculator-form');
+        const progress = document.getElementById('progress');
+        const stepLabel = document.getElementById('step-label');
+        const stepName = document.getElementById('step-name');
+        
+        // Step names for progress indicator
+        const stepNames = {
+            1: 'Property Address',
+            2: 'Building Type',
+            3: 'Utility Provider',
+            4: 'Heating System',
+            5: 'Income Level',
+            6: 'Get Your Report'
+        };
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgress();
+            setupOptionCards();
+            setupSystemAgeWarning();
+            setupOrgNameToggle();
+        });
+        
+        // Option card selection
+        function setupOptionCards() {
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const name = this.querySelector('input').name;
+                    document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                        input.closest('.option-card').classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    this.querySelector('input').checked = true;
+                });
+            });
+        }
+        
+        // System age warning
+        function setupSystemAgeWarning() {
+            const ageSelect = document.getElementById('system_age');
+            const warning = document.getElementById('age-warning');
+            
+            ageSelect.addEventListener('change', function() {
+                if (this.value === '15-20' || this.value === '20+') {
+                    warning.style.display = 'block';
+                } else {
+                    warning.style.display = 'none';
+                }
+            });
+        }
+        
+        // Show org name field for nonprofits
+        function setupOrgNameToggle() {
+            document.querySelectorAll('input[name="building_type"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    const orgGroup = document.getElementById('org-name-group');
+                    if (this.value === 'nonprofit') {
+                        orgGroup.style.display = 'block';
+                    } else {
+                        orgGroup.style.display = 'none';
+                    }
+                });
+            });
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const percent = ((currentStep - 1) / (CONFIG.totalSteps - 1)) * 100;
+            progress.style.width = `${percent}%`;
+            stepLabel.textContent = `Step ${currentStep} of ${CONFIG.totalSteps}`;
+            stepName.textContent = stepNames[currentStep] || '';
+        }
+        
+        // Navigate to step
+        function goToStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+            currentStep = step;
+            updateProgress();
+            
+            // Update preview amount on contact step
+            if (step === 6) {
+                updatePreviewAmount();
+            }
+        }
+        
+        // Next step
+        function nextStep() {
+            if (!validateCurrentStep()) return;
+            collectStepData();
+            goToStep(currentStep + 1);
+        }
+        
+        // Previous step
+        function prevStep() {
+            if (currentStep > 1) {
+                goToStep(currentStep - 1);
+            }
+        }
+        
+        // Validate current step
+        function validateCurrentStep() {
+            const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+            const requiredFields = currentStepEl.querySelectorAll('[required]');
+            
+            let valid = true;
+            requiredFields.forEach(field => {
+                if (field.type === 'radio') {
+                    const name = field.name;
+                    const checked = currentStepEl.querySelector(`input[name="${name}"]:checked`);
+                    if (!checked) {
+                        valid = false;
+                    }
+                } else if (!field.value.trim()) {
+                    field.style.borderColor = 'var(--error)';
+                    valid = false;
+                } else {
+                    field.style.borderColor = '';
+                }
+            });
+            
+            return valid;
+        }
+        
+        // Collect data from current step
+        function collectStepData() {
+            const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+            const inputs = currentStepEl.querySelectorAll('input, select');
+            
+            inputs.forEach(input => {
+                if (input.type === 'radio') {
+                    if (input.checked) {
+                        formData[input.name] = input.value;
+                    }
+                } else {
+                    formData[input.name] = input.value;
+                }
+            });
+        }
+        
+        // Calculate incentives (client-side preview)
+        function calculateIncentives() {
+            let utility_low = 2000, utility_high = 6000;
+            let federal_low = 2000, federal_high = 2000;
+            let state_low = 0, state_high = 0;
+            
+            // Utility rebates
+            const utilityAmounts = {
+                'BGE': [3000, 8000],
+                'Pepco': [2500, 7000],
+                'Potomac Edison': [2000, 6000],
+                'SMECO': [2500, 5000],
+                'Other': [2000, 5000]
+            };
+            
+            if (formData.utility && utilityAmounts[formData.utility]) {
+                [utility_low, utility_high] = utilityAmounts[formData.utility];
+            }
+            
+            // Federal rebates based on income
+            if (formData.income_level === 'under_80_ami') {
+                federal_low = 8000;
+                federal_high = 14000;
+            } else if (formData.income_level === '80_150_ami') {
+                federal_low = 2000;
+                federal_high = 4000;
+            }
+            
+            // State grants
+            if (formData.building_type === 'nonprofit') {
+                state_low = 5000;
+                state_high = 15000;
+            } else if (formData.building_type === '5+_multifamily' && 
+                       (formData.income_level === 'under_80_ami' || formData.income_level === '80_150_ami')) {
+                state_low = 3000;
+                state_high = 10000;
+            } else if (formData.income_level === 'under_80_ami') {
+                state_low = 2000;
+                state_high = 8000;
+            }
+            
+            return {
+                utility: { low: utility_low, high: utility_high },
+                federal: { low: federal_low, high: federal_high },
+                state: { low: state_low, high: state_high },
+                total: {
+                    low: utility_low + federal_low + state_low,
+                    high: utility_high + federal_high + state_high
+                }
+            };
+        }
+        
+        // Update preview amount on contact step
+        function updatePreviewAmount() {
+            const incentives = calculateIncentives();
+            const previewEl = document.getElementById('preview-amount');
+            previewEl.textContent = `$${incentives.total.low.toLocaleString()} - $${incentives.total.high.toLocaleString()}+`;
+        }
+        
+        // Show results
+        function showResults(incentives) {
+            // Update total
+            document.getElementById('results-total').textContent = 
+                `$${incentives.total.low.toLocaleString()} - $${incentives.total.high.toLocaleString()}`;
+            
+            // Build breakdown
+            const breakdownList = document.getElementById('breakdown-list');
+            breakdownList.innerHTML = '';
+            
+            const programs = [
+                { 
+                    label: `${formData.utility || 'Utility'} EmPOWER Rebates`, 
+                    value: `$${incentives.utility.low.toLocaleString()} - $${incentives.utility.high.toLocaleString()}`
+                },
+                { 
+                    label: formData.income_level === 'under_80_ami' ? 'IRA HEEHR (100% eligible)' : 
+                           formData.income_level === '80_150_ami' ? 'IRA HOMES Rebates' : 'Federal 25C Tax Credit',
+                    value: `$${incentives.federal.low.toLocaleString()} - $${incentives.federal.high.toLocaleString()}`
+                }
+            ];
+            
+            if (incentives.state.low > 0) {
+                programs.push({
+                    label: formData.building_type === 'nonprofit' ? 'MEA ECB/EEE Grants' : 'MEA State Programs',
+                    value: `$${incentives.state.low.toLocaleString()} - $${incentives.state.high.toLocaleString()}`
+                });
+            }
+            
+            programs.forEach(prog => {
+                const item = document.createElement('div');
+                item.className = 'breakdown-item';
+                item.innerHTML = `
+                    <span class="label">${prog.label}</span>
+                    <span class="value">${prog.value}</span>
+                `;
+                breakdownList.appendChild(item);
+            });
+            
+            goToStep('results');
+        }
+        
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!validateCurrentStep()) return;
+            collectStepData();
+            
+            // Combine address
+            formData.full_address = `${formData.address}, ${formData.city}, ${formData.state} ${formData.zip}`;
+            formData.submission_time = new Date().toISOString();
+            
+            // Show loading
+            goToStep('loading');
+            
+            // Calculate incentives
+            const incentives = calculateIncentives();
+            formData.calculated_incentives = incentives;
+            
+            // Send to webhook
+            try {
+                const response = await fetch(CONFIG.webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // Show results regardless of webhook response
+                // (don't block user experience on webhook issues)
+            } catch (error) {
+                console.error('Webhook error:', error);
+                // Still show results
+            }
+            
+            // Simulate processing time for UX
+            setTimeout(() => {
+                showResults(incentives);
+            }, 1500);
+        });
+        
+        // Phone number formatting
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 3) {
+                    value = `(${value}`;
+                } else if (value.length <= 6) {
+                    value = `(${value.slice(0,3)}) ${value.slice(3)}`;
+                } else {
+                    value = `(${value.slice(0,3)}) ${value.slice(3,6)}-${value.slice(6,10)}`;
+                }
+            }
+            e.target.value = value;
+        });
+        
+        // ZIP code validation
+        document.getElementById('zip').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 5);
+        });
+    </script>
+    
+    <!-- Triple Pixel Setup (uncomment and configure for production) -->
+    <!--
+    <script>
+        // Meta Pixel
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+    </script>
+    
+    <script>
+        // Google Ads Tag
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'YOUR_GOOGLE_ADS_ID');
+    </script>
+    -->
+</body>
+</html>

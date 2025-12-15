@@ -1,0 +1,489 @@
+{
+  "name": "MBRACE Speed-to-Lead + Nurture Workflow",
+  "version": "1.0",
+  "description": "Complete automation flow: Calculator → SMS → VAPI → Email Nurture",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Webhook - Calculator Submission",
+      "type": "n8n-nodes-base.webhook",
+      "position": [250, 300],
+      "parameters": {
+        "path": "mbrace-calculator",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "notes": "Receives form data from Netlify Forms or direct POST"
+    },
+    {
+      "id": "2",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "position": [450, 300],
+      "parameters": {
+        "values": {
+          "string": [
+            {"name": "address", "value": "={{$json.address}}"},
+            {"name": "building_type", "value": "={{$json.building_type}}"},
+            {"name": "utility", "value": "={{$json.utility}}"},
+            {"name": "heating_system", "value": "={{$json.heating_system}}"},
+            {"name": "system_age", "value": "={{$json.system_age}}"},
+            {"name": "income_level", "value": "={{$json.income_level}}"},
+            {"name": "phone", "value": "={{$json.phone}}"},
+            {"name": "email", "value": "={{$json.email}}"},
+            {"name": "org_name", "value": "={{$json.org_name || ''}}"},
+            {"name": "submission_time", "value": "={{$now.toISO()}}"}
+          ]
+        }
+      }
+    },
+    {
+      "id": "3",
+      "name": "Segment by Building Type",
+      "type": "n8n-nodes-base.switch",
+      "position": [650, 300],
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$json.building_type}}",
+        "rules": {
+          "rules": [
+            {"value2": "nonprofit", "output": 0},
+            {"value2": "5+_multifamily", "output": 1},
+            {"value2": "2-4_unit", "output": 1},
+            {"value2": "single_family", "output": 2}
+          ]
+        }
+      },
+      "notes": "Routes to appropriate SMS template"
+    },
+    {
+      "id": "4a",
+      "name": "SMS - Nonprofit Template",
+      "type": "n8n-nodes-base.twilio",
+      "position": [850, 150],
+      "parameters": {
+        "operation": "send",
+        "from": "={{$env.TWILIO_PHONE}}",
+        "to": "={{$json.phone}}",
+        "message": "{{$json.org_name}} qualifies for Maryland building electrification grants.\n\nYour incentive scan is processing — reply YES to receive it via text, or we'll email within 24hrs.\n\n- MBRACE Intelligence"
+      }
+    },
+    {
+      "id": "4b",
+      "name": "SMS - Low-Income Housing Template",
+      "type": "n8n-nodes-base.twilio",
+      "position": [850, 300],
+      "parameters": {
+        "operation": "send",
+        "from": "={{$env.TWILIO_PHONE}}",
+        "to": "={{$json.phone}}",
+        "message": "{{$json.address}} appears eligible for Maryland heat pump incentives covering 50-100% of project costs.\n\nReply YES to get your scan via text, or check your email within 24hrs.\n\n- MBRACE Intelligence"
+      }
+    },
+    {
+      "id": "4c",
+      "name": "SMS - Homeowner Template",
+      "type": "n8n-nodes-base.twilio",
+      "position": [850, 450],
+      "parameters": {
+        "operation": "send",
+        "from": "={{$env.TWILIO_PHONE}}",
+        "to": "={{$json.phone}}",
+        "message": "Good news — {{$json.address}} may qualify for $8,000-$14,000+ in Maryland heat pump incentives.\n\nReply YES for your scan via text, or we'll email it within 24hrs.\n\n- MBRACE Intelligence"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Merge SMS Paths",
+      "type": "n8n-nodes-base.merge",
+      "position": [1050, 300],
+      "parameters": {
+        "mode": "append"
+      }
+    },
+    {
+      "id": "6",
+      "name": "Wait 15 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "position": [1200, 300],
+      "parameters": {
+        "amount": 15,
+        "unit": "seconds"
+      },
+      "notes": "Brief pause before VAPI call"
+    },
+    {
+      "id": "7",
+      "name": "VAPI - Initiate Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1400, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vapi.ai/call/phone",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "headers": {
+          "parameters": [
+            {"name": "Authorization", "value": "Bearer {{$env.VAPI_API_KEY}}"}
+          ]
+        },
+        "body": {
+          "json": {
+            "assistantId": "{{$env.VAPI_ASSISTANT_ID}}",
+            "phoneNumberId": "{{$env.VAPI_PHONE_ID}}",
+            "customer": {
+              "number": "={{$json.phone}}"
+            },
+            "assistantOverrides": {
+              "variableValues": {
+                "address": "={{$json.address}}",
+                "building_type": "={{$json.building_type}}",
+                "utility_territory": "={{$json.utility}}",
+                "delivery_method": "email"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "8",
+      "name": "Store in Database",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1600, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.DATABASE_WEBHOOK}}",
+        "body": {
+          "json": {
+            "address": "={{$json.address}}",
+            "building_type": "={{$json.building_type}}",
+            "utility": "={{$json.utility}}",
+            "heating_system": "={{$json.heating_system}}",
+            "system_age": "={{$json.system_age}}",
+            "income_level": "={{$json.income_level}}",
+            "phone": "={{$json.phone}}",
+            "email": "={{$json.email}}",
+            "org_name": "={{$json.org_name}}",
+            "submission_time": "={{$json.submission_time}}",
+            "status": "pending_report"
+          }
+        }
+      },
+      "notes": "Store in Airtable, Firebase, or your DB of choice"
+    },
+    {
+      "id": "9",
+      "name": "Calculate Incentives",
+      "type": "n8n-nodes-base.code",
+      "position": [1800, 300],
+      "parameters": {
+        "language": "javascript",
+        "code": "// Incentive calculation logic based on inputs\nconst buildingType = $input.first().json.building_type;\nconst incomeLevel = $input.first().json.income_level;\nconst utility = $input.first().json.utility;\nconst heatingSystem = $input.first().json.heating_system;\n\nlet incentives = {\n  utility_rebate: 0,\n  federal_rebate: 0,\n  state_grant: 0,\n  total_low: 0,\n  total_high: 0,\n  coverage_percent: '',\n  programs: []\n};\n\n// EmPOWER utility rebates (varies by utility)\nconst utilityRebates = {\n  'BGE': { low: 3000, high: 8000 },\n  'Pepco': { low: 2500, high: 7000 },\n  'Potomac Edison': { low: 2000, high: 6000 },\n  'SMECO': { low: 2500, high: 5000 }\n};\n\nif (utilityRebates[utility]) {\n  incentives.utility_rebate = utilityRebates[utility];\n  incentives.programs.push('EmPOWER Maryland Rebates');\n}\n\n// Federal IRA rebates based on income\nif (incomeLevel === 'under_80_ami') {\n  incentives.federal_rebate = { low: 8000, high: 14000 };\n  incentives.programs.push('IRA HEEHR (100% coverage eligible)');\n} else if (incomeLevel === '80_150_ami') {\n  incentives.federal_rebate = { low: 2000, high: 4000 };\n  incentives.programs.push('IRA HOMES (50% coverage)');\n} else {\n  incentives.federal_rebate = { low: 2000, high: 2000 };\n  incentives.programs.push('Federal 25C Tax Credit');\n}\n\n// State MEA grants for nonprofits and LI housing\nif (buildingType === 'nonprofit') {\n  incentives.state_grant = { low: 5000, high: 15000 };\n  incentives.programs.push('MEA ECB/EEE Grants');\n} else if (buildingType === '5+_multifamily' && incomeLevel === 'under_80_ami') {\n  incentives.state_grant = { low: 3000, high: 10000 };\n  incentives.programs.push('MEA Multifamily + DHCD/MEEHA');\n}\n\n// Calculate totals\nincentives.total_low = \n  (incentives.utility_rebate.low || 0) + \n  (incentives.federal_rebate.low || 0) + \n  (incentives.state_grant.low || 0);\n\nincentives.total_high = \n  (incentives.utility_rebate.high || 0) + \n  (incentives.federal_rebate.high || 0) + \n  (incentives.state_grant.high || 0);\n\n// Estimate coverage percentage\nconst avgTotal = (incentives.total_low + incentives.total_high) / 2;\nconst estimatedProjectCost = buildingType === 'single_family' ? 15000 : 20000;\nconst coveragePct = Math.min(100, Math.round((avgTotal / estimatedProjectCost) * 100));\n\nif (coveragePct >= 80) {\n  incentives.coverage_percent = '80-100%';\n} else if (coveragePct >= 50) {\n  incentives.coverage_percent = '50-80%';\n} else {\n  incentives.coverage_percent = '30-50%';\n}\n\nreturn {\n  ...($input.first().json),\n  incentives: incentives\n};"
+      }
+    },
+    {
+      "id": "10",
+      "name": "Generate PDF Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [2000, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.PDF_GENERATION_ENDPOINT}}",
+        "body": {
+          "json": {
+            "template": "incentive_scan_report",
+            "data": "={{$json}}"
+          }
+        }
+      },
+      "notes": "Calls your PDF generation service (DocRaptor, PDFShift, or custom)"
+    },
+    {
+      "id": "11",
+      "name": "Wait 2 Hours",
+      "type": "n8n-nodes-base.wait",
+      "position": [2200, 300],
+      "parameters": {
+        "amount": 2,
+        "unit": "hours"
+      },
+      "notes": "Delay before sending report email"
+    },
+    {
+      "id": "12",
+      "name": "Email - Report Delivery",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [2400, 300],
+      "parameters": {
+        "fromEmail": "scans@mbrace.io",
+        "toEmail": "={{$json.email}}",
+        "subject": "Your Maryland Incentive Scan — {{$json.address}}",
+        "text": "",
+        "html": "See email_templates/report_delivery.html",
+        "attachments": "={{$json.pdf_url}}"
+      }
+    },
+    {
+      "id": "13",
+      "name": "Schedule Day 3 Nudge",
+      "type": "n8n-nodes-base.wait",
+      "position": [2600, 300],
+      "parameters": {
+        "amount": 3,
+        "unit": "days"
+      }
+    },
+    {
+      "id": "14",
+      "name": "Check Engagement",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [2800, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "={{$env.DATABASE_WEBHOOK}}/check-engagement/{{$json.email}}"
+      },
+      "notes": "Check if they clicked report link"
+    },
+    {
+      "id": "15",
+      "name": "If No Click",
+      "type": "n8n-nodes-base.if",
+      "position": [3000, 300],
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {"value1": "={{$json.has_clicked}}", "value2": false}
+          ]
+        }
+      }
+    },
+    {
+      "id": "16",
+      "name": "SMS - Compliance Nudge",
+      "type": "n8n-nodes-base.twilio",
+      "position": [3200, 200],
+      "parameters": {
+        "operation": "send",
+        "from": "={{$env.TWILIO_PHONE}}",
+        "to": "={{$json.phone}}",
+        "message": "Quick note — Maryland's heat pump rules phase in starting 2025-2026.\n\nCurrent incentives won't last at these levels once demand spikes.\n\nYour scan showed {{$json.address}} qualifies now: {{$json.report_link}}\n\nNo pressure — just don't want you to miss the window."
+      }
+    },
+    {
+      "id": "17",
+      "name": "Schedule Day 5 Checklist",
+      "type": "n8n-nodes-base.wait",
+      "position": [3200, 400],
+      "parameters": {
+        "amount": 2,
+        "unit": "days"
+      },
+      "notes": "If they clicked but no action"
+    },
+    {
+      "id": "18",
+      "name": "SMS - Checklist Offer",
+      "type": "n8n-nodes-base.twilio",
+      "position": [3400, 400],
+      "parameters": {
+        "operation": "send",
+        "from": "={{$env.TWILIO_PHONE}}",
+        "to": "={{$json.phone}}",
+        "message": "The difference between 50% and 100% coverage usually comes down to documentation sequence.\n\nWant the owner checklist we use for {{$json.building_type === 'nonprofit' ? 'ECB/EEE' : 'DHCD/MEEHA'}} projects?\n\nReply CHECKLIST."
+      }
+    },
+    {
+      "id": "19",
+      "name": "Schedule Day 7 Final",
+      "type": "n8n-nodes-base.wait",
+      "position": [3600, 300],
+      "parameters": {
+        "amount": 2,
+        "unit": "days"
+      }
+    },
+    {
+      "id": "20",
+      "name": "SMS - Final Touch",
+      "type": "n8n-nodes-base.twilio",
+      "position": [3800, 300],
+      "parameters": {
+        "operation": "send",
+        "from": "={{$env.TWILIO_PHONE}}",
+        "to": "={{$json.phone}}",
+        "message": "Last note — your incentive scan for {{$json.address}} is saved if you need it later.\n\nIf your situation changes or you want to revisit before the 2026 phase-in, just reply here.\n\n- MBRACE"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook - Calculator Submission": {"main": [[{"node": "Set Variables", "type": "main", "index": 0}]]},
+    "Set Variables": {"main": [[{"node": "Segment by Building Type", "type": "main", "index": 0}]]},
+    "Segment by Building Type": {
+      "main": [
+        [{"node": "SMS - Nonprofit Template", "type": "main", "index": 0}],
+        [{"node": "SMS - Low-Income Housing Template", "type": "main", "index": 0}],
+        [{"node": "SMS - Homeowner Template", "type": "main", "index": 0}]
+      ]
+    },
+    "SMS - Nonprofit Template": {"main": [[{"node": "Merge SMS Paths", "type": "main", "index": 0}]]},
+    "SMS - Low-Income Housing Template": {"main": [[{"node": "Merge SMS Paths", "type": "main", "index": 0}]]},
+    "SMS - Homeowner Template": {"main": [[{"node": "Merge SMS Paths", "type": "main", "index": 0}]]},
+    "Merge SMS Paths": {"main": [[{"node": "Wait 15 Seconds", "type": "main", "index": 0}]]},
+    "Wait 15 Seconds": {"main": [[{"node": "VAPI - Initiate Call", "type": "main", "index": 0}]]},
+    "VAPI - Initiate Call": {"main": [[{"node": "Store in Database", "type": "main", "index": 0}]]},
+    "Store in Database": {"main": [[{"node": "Calculate Incentives", "type": "main", "index": 0}]]},
+    "Calculate Incentives": {"main": [[{"node": "Generate PDF Report", "type": "main", "index": 0}]]},
+    "Generate PDF Report": {"main": [[{"node": "Wait 2 Hours", "type": "main", "index": 0}]]},
+    "Wait 2 Hours": {"main": [[{"node": "Email - Report Delivery", "type": "main", "index": 0}]]},
+    "Email - Report Delivery": {"main": [[{"node": "Schedule Day 3 Nudge", "type": "main", "index": 0}]]},
+    "Schedule Day 3 Nudge": {"main": [[{"node": "Check Engagement", "type": "main", "index": 0}]]},
+    "Check Engagement": {"main": [[{"node": "If No Click", "type": "main", "index": 0}]]},
+    "If No Click": {
+      "main": [
+        [{"node": "SMS - Compliance Nudge", "type": "main", "index": 0}],
+        [{"node": "Schedule Day 5 Checklist", "type": "main", "index": 0}]
+      ]
+    },
+    "SMS - Compliance Nudge": {"main": [[{"node": "Schedule Day 7 Final", "type": "main", "index": 0}]]},
+    "Schedule Day 5 Checklist": {"main": [[{"node": "SMS - Checklist Offer", "type": "main", "index": 0}]]},
+    "SMS - Checklist Offer": {"main": [[{"node": "Schedule Day 7 Final", "type": "main", "index": 0}]]},
+    "Schedule Day 7 Final": {"main": [[{"node": "SMS - Final Touch", "type": "main", "index": 0}]]}
+  },
+  "environment_variables_required": [
+    "TWILIO_PHONE",
+    "TWILIO_SID", 
+    "TWILIO_AUTH_TOKEN",
+    "VAPI_API_KEY",
+    "VAPI_ASSISTANT_ID",
+    "VAPI_PHONE_ID",
+    "DATABASE_WEBHOOK",
+    "PDF_GENERATION_ENDPOINT"
+  ],
+  "workflow_diagram": "
+================================================================================
+                    MBRACE SPEED-TO-LEAD WORKFLOW DIAGRAM
+================================================================================
+
+    [CALCULATOR FORM SUBMIT]
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Webhook Receives   │  T+0 seconds
+    │    Form Data        │
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │   Set Variables     │  Parse & normalize
+    │   & Segment         │
+    └─────────────────────┘
+              │
+       ┌──────┼──────┐
+       │      │      │
+       ▼      ▼      ▼
+    ┌─────┐┌─────┐┌─────┐
+    │ NP  ││ MF  ││ SFH │   T+5-10 seconds
+    │ SMS ││ SMS ││ SMS │   (Segment-specific templates)
+    └─────┘└─────┘└─────┘
+       │      │      │
+       └──────┼──────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │   Wait 15 Seconds   │  Brief pause
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │   VAPI Voice Call   │  T+15-30 seconds
+    │   (Verification)    │  
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Store in Database  │  Capture intelligence
+    │  (Airtable/Firebase)│
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │ Calculate Incentives│  Logic based on inputs
+    │  (Code Node)        │
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Generate PDF Report│  Call PDF service
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │   Wait 2 Hours      │  Processing time
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Email Report       │  Day 0, T+2hr
+    │  Delivery           │  (with PDF attached)
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │   Wait 3 Days       │
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │ Check: Did they     │  Day 3
+    │ click report link?  │
+    └─────────────────────┘
+              │
+       ┌──────┴──────┐
+       │             │
+       ▼             ▼
+    [NO CLICK]    [CLICKED]
+       │             │
+       ▼             ▼
+    ┌─────────┐ ┌─────────────┐
+    │SMS:     │ │Wait 2 Days  │
+    │Compliance│ │(Day 5)      │
+    │Nudge    │ └─────────────┘
+    └─────────┘       │
+       │             ▼
+       │      ┌─────────────┐
+       │      │SMS: Checklist│  Day 5
+       │      │Offer        │
+       │      └─────────────┘
+       │             │
+       └──────┬──────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │   Wait 2 Days       │
+    └─────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  SMS: Final Touch   │  Day 7
+    │  (Save for later)   │
+    └─────────────────────┘
+              │
+              ▼
+         [WORKFLOW END]
+
+================================================================================
+                           TIMING SUMMARY
+================================================================================
+
+T+0 sec      │ Form submitted → Webhook fires
+T+5-10 sec   │ SMS #1 sent (segment-specific)
+T+15-30 sec  │ VAPI call initiated
+T+2 hours    │ Email with PDF report sent
+Day 3        │ Check engagement → Nudge if no click
+Day 5        │ Checklist offer if clicked but no action
+Day 7        │ Final touch / archive
+
+================================================================================
+"
+}

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBRACE Intelligence Engine - System Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 40px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+        
+        .header .subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* Layer Containers */
+        .layer {
+            background: #1e293b;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid #334155;
+        }
+        
+        .layer.highlight-blue {
+            border: 2px solid #3b82f6;
+        }
+        
+        .layer.highlight-orange {
+            border: 2px solid #f59e0b;
+        }
+        
+        .layer-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .layer-badge {
+            background: #3b82f6;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .layer-badge.orange {
+            background: #f59e0b;
+            color: #000;
+        }
+        
+        .layer-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .grid-1-2-1 {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        /* Cards */
+        .card {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 14px;
+            border: 1px solid #475569;
+        }
+        
+        .card-title {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .card-title.blue { color: #60a5fa; }
+        .card-title.green { color: #34d399; }
+        .card-title.yellow { color: #fbbf24; }
+        
+        .card ul {
+            margin: 0;
+            padding-left: 14px;
+            font-size: 10px;
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+        
+        /* Calculator Box */
+        .calculator-box {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 16px;
+            border: 2px solid #22c55e;
+            text-align: center;
+        }
+        
+        .calculator-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #22c55e;
+            margin-bottom: 12px;
+        }
+        
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+            font-size: 10px;
+        }
+        
+        .calc-item {
+            background: #1e293b;
+            padding: 6px;
+            border-radius: 4px;
+        }
+        
+        .calc-output {
+            margin-top: 12px;
+            padding: 10px;
+            background: #14532d;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #86efac;
+        }
+        
+        /* Side Columns */
+        .side-col {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .side-col-title {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        
+        .side-col-items {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .side-item {
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+        
+        .side-item.blue { background: #1e40af; }
+        .side-item.purple { background: #7c3aed; }
+        
+        /* Stat Cards */
+        .stat-card {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .stat-card.highlight {
+            border: 1px solid #f59e0b;
+        }
+        
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f59e0b;
+        }
+        
+        .stat-label {
+            font-size: 9px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        
+        .stat-title {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        .stat-title.blue { color: #60a5fa; }
+        .stat-title.green { color: #34d399; }
+        .stat-title.yellow { color: #fbbf24; }
+        
+        .stat-subtitle {
+            font-size: 9px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+        
+        /* Multiplier Cards */
+        .mult-card {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 14px;
+        }
+        
+        .mult-card.blue { border: 1px solid #3b82f6; }
+        .mult-card.green { border: 1px solid #22c55e; }
+        .mult-card.orange { border: 1px solid #f59e0b; }
+        
+        .mult-title {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .mult-title.blue { color: #60a5fa; }
+        .mult-title.green { color: #4ade80; }
+        .mult-title.orange { color: #fbbf24; }
+        
+        .mult-desc {
+            font-size: 10px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+        
+        .mult-highlight {
+            margin-top: 10px;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        .mult-highlight.blue {
+            background: #1e3a5f;
+            color: #93c5fd;
+        }
+        
+        .mult-highlight.green {
+            background: #14532d;
+            color: #86efac;
+        }
+        
+        .mult-highlight.orange {
+            background: #78350f;
+            color: #fde68a;
+        }
+        
+        /* Arrow */
+        .arrow {
+            text-align: center;
+            padding: 8px 0;
+        }
+        
+        .arrow svg {
+            width: 32px;
+            height: 32px;
+        }
+        
+        /* Bottom Box */
+        .bottom-box {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #8b5cf6;
+            text-align: center;
+            margin-top: 16px;
+        }
+        
+        .bottom-title {
+            font-size: 12px;
+            color: #a78bfa;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .bottom-item h3 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .bottom-item h3.green { color: #22c55e; }
+        .bottom-item h3.orange { color: #f59e0b; }
+        
+        .bottom-item p {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        
+        .bottom-cta {
+            margin-top: 20px;
+            padding: 14px;
+            background: #1e1b4b;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #c4b5fd;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 10px;
+            color: #64748b;
+        }
+        
+        @media print {
+            body {
+                padding: 20px;
+            }
+            .layer {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>MBRACE INTELLIGENCE ENGINE</h1>
+            <p class="subtitle">Maryland Electrification Data & Compliance Platform</p>
+        </div>
+        
+        <!-- Layer 1: List Sources -->
+        <div class="layer">
+            <div class="layer-header">
+                <span class="layer-badge">LAYER 1</span>
+                <span class="layer-title">Authoritative List Acquisition</span>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-title blue">LOW-INCOME HOUSING</div>
+                    <ul>
+                        <li>HUD LIHTC Database</li>
+                        <li>State Housing Finance Agencies</li>
+                        <li>Section 8 / PHA Records</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title green">NONPROFIT ORGANIZATIONS</div>
+                    <ul>
+                        <li>IRS Form 990 Filings</li>
+                        <li>State Charity Registries</li>
+                        <li>Utility Community Partners</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title yellow">PE / INSTITUTIONAL</div>
+                    <ul>
+                        <li>CoStar / Reonomy</li>
+                        <li>SEC Filings & Press</li>
+                        <li>Housing Authority Counterparties</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Arrow -->
+        <div class="arrow">
+            <svg viewBox="0 0 40 40">
+                <path d="M20 5 L20 30 M10 22 L20 32 L30 22" stroke="#3b82f6" stroke-width="3" fill="none"/>
+            </svg>
+        </div>
+        
+        <!-- Layer 2: Calculator -->
+        <div class="layer highlight-blue">
+            <div class="layer-header">
+                <span class="layer-badge">LAYER 2</span>
+                <span class="layer-title">Intelligence Capture Engine</span>
+            </div>
+            <div class="grid-1-2-1">
+                <div class="side-col">
+                    <div class="side-col-title">TRAFFIC SOURCES</div>
+                    <div class="side-col-items">
+                        <div class="side-item blue">Paid Search</div>
+                        <div class="side-item blue">Direct Email</div>
+                        <div class="side-item blue">Partner Referrals</div>
+                    </div>
+                </div>
+                <div class="calculator-box">
+                    <div class="calculator-title">DMV ELECTRIFICATION CALCULATOR</div>
+                    <div class="calc-grid">
+                        <div class="calc-item">📍 Address + Building Type</div>
+                        <div class="calc-item">⚡ Utility Territory</div>
+                        <div class="calc-item">🔥 Heating System + Age</div>
+                        <div class="calc-item">💰 Income Classification</div>
+                    </div>
+                    <div class="calc-output">
+                        <strong>OUTPUT:</strong> Personalized Incentive Scan ($8K-$30K+)
+                    </div>
+                </div>
+                <div class="side-col">
+                    <div class="side-col-title">SPEED-TO-LEAD</div>
+                    <div class="side-col-items">
+                        <div class="side-item purple">T+10s: SMS</div>
+                        <div class="side-item purple">T+30s: VAPI Call</div>
+                        <div class="side-item purple">T+2hr: PDF Report</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Arrow -->
+        <div class="arrow">
+            <svg viewBox="0 0 40 40">
+                <path d="M20 5 L20 30 M10 22 L20 32 L30 22" stroke="#22c55e" stroke-width="3" fill="none"/>
+            </svg>
+        </div>
+        
+        <!-- Layer 3: Dataset -->
+        <div class="layer">
+            <div class="layer-header">
+                <span class="layer-badge orange">LAYER 3</span>
+                <span class="layer-title">Proprietary Intelligence Dataset</span>
+            </div>
+            <div class="grid-4">
+                <div class="stat-card highlight">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Submissions = Index Ready</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title blue">Utility Exposure Maps</div>
+                    <div class="stat-subtitle">BGE / Pepco / SMECO risk curves</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title green">ZEHES Timeline Risk</div>
+                    <div class="stat-subtitle">System age → forced replacement</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title yellow">Incentive Saturation</div>
+                    <div class="stat-subtitle">Program capacity by region</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Arrow -->
+        <div class="arrow">
+            <svg viewBox="0 0 40 40">
+                <path d="M20 5 L20 30 M10 22 L20 32 L30 22" stroke="#f59e0b" stroke-width="3" fill="none"/>
+            </svg>
+        </div>
+        
+        <!-- Layer 4: Multipliers -->
+        <div class="layer highlight-orange">
+            <div class="layer-header">
+                <span class="layer-badge orange">LAYER 4</span>
+                <span class="layer-title">Multipliers & Monetization</span>
+            </div>
+            <div class="grid-3">
+                <div class="mult-card blue">
+                    <div class="mult-title blue">🏛️ HOUSING AUTHORITY LOOP</div>
+                    <div class="mult-desc">Neutral tool + SOP → HAs push to hundreds of owners</div>
+                    <div class="mult-highlight blue">1 relationship → 100s of assets</div>
+                </div>
+                <div class="mult-card green">
+                    <div class="mult-title green">🔧 CONTRACTOR NETWORK</div>
+                    <div class="mult-desc">Pre-qualified projects + SOPs → contractors become distribution</div>
+                    <div class="mult-highlight green">Volume without ad spend</div>
+                </div>
+                <div class="mult-card orange">
+                    <div class="mult-title orange">💼 PE INBOUND</div>
+                    <div class="mult-desc">Maryland Electrification Index → PE asks "run this on our portfolio"</div>
+                    <div class="mult-highlight orange">Outreach flips → they qualify to you</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Box -->
+        <div class="bottom-box">
+            <div class="bottom-title">The Asymmetry</div>
+            <div class="bottom-grid">
+                <div class="bottom-item">
+                    <h3>Regulation</h3>
+                    <p>creates urgency</p>
+                </div>
+                <div class="bottom-item">
+                    <h3 class="green">Incentives</h3>
+                    <p>create upside</p>
+                </div>
+                <div class="bottom-item">
+                    <h3 class="orange">Data</h3>
+                    <p>creates power</p>
+                </div>
+            </div>
+            <div class="bottom-cta">
+                PE cannot scrape it. PE cannot buy it. <strong>PE must come to you.</strong>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            MBRACE Intelligence Engine • Maryland Building Electrification Platform • mbrace.io
+        </div>
+    </div>
+</body>
+</html>

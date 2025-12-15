@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maryland LIHTC Heat Pump Incentives | 50-100% Coverage | MBRACE</title>
+    <meta name="description" content="Maryland affordable housing owners: EmPOWER + IRA HEEHR + DHCD programs can cover 50-100% of heat pump conversion costs. Free portfolio scan.">
+    
+    <meta property="og:title" content="Maryland LIHTC Owners: Heat Pump Incentives Cover 50-100% of Costs">
+    <meta property="og:description" content="Your LIHTC, Section 8, or affordable housing portfolio qualifies for stacked incentives most owners miss. See your property-level eligibility.">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Hero */
+        .hero { padding: 60px 0 40px; }
+        
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-grid { grid-template-columns: 1fr; }
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        
+        .hero h1 span { color: var(--success); }
+        
+        .hero .subtitle {
+            font-size: 17px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        
+        .hero-cta {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .hero-cta:hover { background: var(--accent-hover); }
+        
+        /* Stats Card */
+        .stats-card {
+            background: var(--primary-light);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border);
+        }
+        
+        .stats-card h3 {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stat-row:last-child { border-bottom: none; }
+        
+        .stat-row .label { color: var(--text-muted); font-size: 14px; }
+        .stat-row .value { font-weight: 600; color: var(--success); }
+        
+        /* Problem Section */
+        .problem {
+            background: var(--primary-light);
+            padding: 48px 0;
+            margin: 48px 0;
+        }
+        
+        .problem h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        @media (max-width: 700px) {
+            .problem-grid { grid-template-columns: 1fr; }
+        }
+        
+        .problem-card {
+            text-align: center;
+            padding: 24px;
+        }
+        
+        .problem-card .icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+        }
+        
+        .problem-card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+        
+        .problem-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        /* Programs */
+        .programs { padding: 48px 0; }
+        
+        .programs h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+        
+        .programs .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+        
+        .program-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .program-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--primary-light);
+            padding: 20px 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .program-item .amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--success);
+            min-width: 140px;
+        }
+        
+        .program-item .details h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        
+        .program-item .details p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .stack-total {
+            background: var(--success);
+            color: var(--primary);
+            padding: 20px 24px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+        
+        .stack-total .label { font-size: 16px; }
+        .stack-total .value { font-size: 24px; }
+        
+        /* Timeline Warning */
+        .timeline-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 32px;
+            margin: 48px 0;
+        }
+        
+        .timeline-warning h3 {
+            color: var(--warning);
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .timeline-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        @media (max-width: 600px) {
+            .timeline-list { grid-template-columns: 1fr; }
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .timeline-item .year {
+            font-weight: 700;
+            color: var(--warning);
+            min-width: 70px;
+        }
+        
+        .timeline-item .event {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        /* Form */
+        .form-section {
+            background: var(--primary-light);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 48px 0;
+            border: 2px solid var(--accent);
+        }
+        
+        .form-section h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .form-section .form-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        
+        .form-group { margin-bottom: 20px; }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            font-family: inherit;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+        
+        textarea { resize: vertical; min-height: 80px; }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: inherit;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .btn:hover { background: var(--accent-hover); }
+        
+        .privacy {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 16px;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <div class="badge">For LIHTC, Section 8 & Affordable Housing Owners</div>
+                    <h1>Your Affordable Housing Portfolio Qualifies for <span>50-100%</span> Heat Pump Coverage</h1>
+                    <p class="subtitle">Most Maryland affordable housing owners leave $15,000-$25,000+ per unit unclaimed. EmPOWER + IRA + DHCD stack to cover most or all of your conversion costs.</p>
+                    <a href="#form" class="hero-cta">Get My Portfolio Scan →</a>
+                </div>
+                <div class="stats-card">
+                    <h3>Illustrative 100-Unit Portfolio</h3>
+                    <div class="stat-row">
+                        <span class="label">Gross electrification cost</span>
+                        <span class="value" style="color: var(--text);">~$2.0M</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">EmPOWER rebates</span>
+                        <span class="value">($400K)</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">IRA HEEHR (income-qualified)</span>
+                        <span class="value">($1.0M)</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">DHCD/MEA grants</span>
+                        <span class="value">($300K)</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label"><strong>Net owner cost</strong></span>
+                        <span class="value" style="color: var(--accent);"><strong>~$300K</strong></span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="label">Annual energy savings</span>
+                        <span class="value">$70K+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Problem -->
+    <section class="problem">
+        <div class="container">
+            <h2>The Maryland Mandate Reality</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="icon">⚠️</div>
+                    <h3>Forced Replacement Coming</h3>
+                    <p>ZEHES mandate requires heat pumps when fossil systems reach end-of-life. Emergency pricing is 35-50% higher than planned.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">💸</div>
+                    <h3>Incentives Won't Last</h3>
+                    <p>Current stacked incentives cover 50-100% of costs. As demand spikes, programs cap out and rates drop.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="icon">📋</div>
+                    <h3>Sequencing Matters</h3>
+                    <p>Wrong application order = missed funding. EmPOWER → IRA → DHCD has specific documentation requirements.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Programs -->
+    <section class="programs">
+        <div class="container">
+            <h2>How Incentives Stack for Affordable Housing</h2>
+            <p class="subtitle">Per-unit amounts for income-qualified properties</p>
+            
+            <div class="program-stack">
+                <div class="program-item">
+                    <div class="amount">$4,000-$8,000</div>
+                    <div class="details">
+                        <h4>EmPOWER Maryland (Utility)</h4>
+                        <p>BGE, Pepco, Potomac Edison, SMECO — varies by utility and equipment</p>
+                    </div>
+                </div>
+                <div class="program-item">
+                    <div class="amount">$8,000-$14,000</div>
+                    <div class="details">
+                        <h4>IRA HEEHR (Federal)</h4>
+                        <p>100% coverage for ≤80% AMI tenants — your LIHTC units likely qualify</p>
+                    </div>
+                </div>
+                <div class="program-item">
+                    <div class="amount">$3,000-$8,000</div>
+                    <div class="details">
+                        <h4>DHCD MEEHA / MEA (State)</h4>
+                        <p>Additional state grants for affordable multifamily — first-come basis</p>
+                    </div>
+                </div>
+                <div class="stack-total">
+                    <span class="label">Total Stackable Incentives</span>
+                    <span class="value">$15,000-$30,000/unit</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Timeline Warning -->
+    <section class="container">
+        <div class="timeline-warning">
+            <h3>⏰ Key Dates for Affordable Housing Owners</h3>
+            <div class="timeline-list">
+                <div class="timeline-item">
+                    <span class="year">2025-26</span>
+                    <span class="event">Clean Heat Rules phase-in begins</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2026-27</span>
+                    <span class="event">IRA rebate programs may see budget constraints</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">~2029</span>
+                    <span class="event">ZEHES triggers — fossil EOL = heat pump required</span>
+                </div>
+                <div class="timeline-item">
+                    <span class="year">2030</span>
+                    <span class="event">State target: 95% heat pump market share</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Form -->
+    <section class="form-section container" id="form">
+        <h2>Get Your Portfolio Incentive Scan</h2>
+        <p class="form-subtitle">Property-level eligibility breakdown — no contractors, no sales pitch</p>
+        
+        <form name="lihtc-calculator" method="POST" data-netlify="true" action="/success.html">
+            <input type="hidden" name="form-name" value="lihtc-calculator">
+            <input type="hidden" name="segment" value="lihtc">
+            
+            <div class="form-group">
+                <label>Company / Entity Name *</label>
+                <input type="text" name="company_name" placeholder="Parkview Housing Partners LLC" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Number of Maryland Properties *</label>
+                    <select name="property_count" required>
+                        <option value="">Select range</option>
+                        <option value="1-5">1-5 properties</option>
+                        <option value="6-20">6-20 properties</option>
+                        <option value="21-50">21-50 properties</option>
+                        <option value="50+">50+ properties</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Total Units (approx) *</label>
+                    <select name="unit_count" required>
+                        <option value="">Select range</option>
+                        <option value="1-50">1-50 units</option>
+                        <option value="51-200">51-200 units</option>
+                        <option value="201-500">201-500 units</option>
+                        <option value="500+">500+ units</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Property Type(s) *</label>
+                <select name="property_type" required>
+                    <option value="">Select primary type</option>
+                    <option value="lihtc">LIHTC (Tax Credit)</option>
+                    <option value="section8">Section 8 / PBV</option>
+                    <option value="public_housing">Public Housing</option>
+                    <option value="mixed_affordable">Mixed Affordable</option>
+                    <option value="market_rate_mf">Market-Rate Multifamily</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Primary Property Address (we'll start with one)</label>
+                <input type="text" name="address" placeholder="123 Main Street, Baltimore, MD 21201">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Your Email *</label>
+                    <input type="email" name="email" placeholder="jsmith@parkviewhousing.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" name="phone" placeholder="(410) 555-1234" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Your Role</label>
+                <select name="role">
+                    <option value="">Select role</option>
+                    <option value="owner">Owner / Principal</option>
+                    <option value="asset_manager">Asset Manager</option>
+                    <option value="property_manager">Property Manager</option>
+                    <option value="development">Development</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn">Get My Portfolio Scan →</button>
+            
+            <p class="privacy">MBRACE is an independent intelligence service — not a contractor. We don't sell equipment or share your data.</p>
+        </form>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>MBRACE Intelligence • Maryland Building Electrification Data</p>
+            <p style="margin-top: 8px;">Used by housing authorities and institutional owners across Maryland.</p>
+        </div>
+    </footer>
+</body>
+</html>

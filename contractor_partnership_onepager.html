@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBRACE Contractor Partnership | Pre-Qualified Heat Pump Projects</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11pt;
+            line-height: 1.5;
+            color: #1e293b;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid #22c55e;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .logo {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #0f172a;
+        }
+        
+        .logo span {
+            color: #22c55e;
+        }
+        
+        .contact {
+            text-align: right;
+            font-size: 9pt;
+            color: #64748b;
+        }
+        
+        h1 {
+            font-size: 22pt;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 12pt;
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #22c55e;
+        }
+        
+        .box.blue {
+            border-left-color: #3b82f6;
+        }
+        
+        .box h2 {
+            font-size: 13pt;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+        
+        .box ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .box li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 10pt;
+        }
+        
+        .box li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #22c55e;
+            font-weight: bold;
+        }
+        
+        .box.blue li::before {
+            color: #3b82f6;
+        }
+        
+        .highlight-box {
+            background: #0f172a;
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .highlight-box h2 {
+            font-size: 13pt;
+            color: #22c55e;
+            margin-bottom: 12px;
+        }
+        
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        
+        .stat {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #22c55e;
+        }
+        
+        .stat-label {
+            font-size: 9pt;
+            color: #94a3b8;
+        }
+        
+        h3 {
+            font-size: 13pt;
+            color: #0f172a;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .process-steps {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background: #22c55e;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12pt;
+            margin: 0 auto 8px;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            font-size: 10pt;
+            margin-bottom: 4px;
+        }
+        
+        .step-desc {
+            font-size: 9pt;
+            color: #64748b;
+        }
+        
+        .requirements {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .requirements h3 {
+            color: #92400e;
+            border-bottom-color: #fcd34d;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+        }
+        
+        .requirements ul {
+            list-style: disc;
+            padding-left: 20px;
+            font-size: 10pt;
+            color: #78350f;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+        }
+        
+        .cta-box h2 {
+            font-size: 14pt;
+            margin-bottom: 8px;
+        }
+        
+        .cta-box p {
+            font-size: 10pt;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+        
+        .cta-contact {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            font-size: 11pt;
+        }
+        
+        .cta-contact span {
+            color: #22c55e;
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 8pt;
+            color: #94a3b8;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">MBRACE <span>INTELLIGENCE</span></div>
+        <div class="contact">
+            Maryland Building Electrification Data<br>
+            mbrace.io
+        </div>
+    </div>
+    
+    <h1>Contractor Partnership Program</h1>
+    <p class="subtitle">Pre-qualified heat pump projects. No ad spend required.</p>
+    
+    <div class="two-col">
+        <div class="box">
+            <h2>What You Get</h2>
+            <ul>
+                <li>Pre-qualified project leads (address, system, incentive eligibility)</li>
+                <li>Property owners who've already seen their incentive breakdown</li>
+                <li>No bidding against 5 other contractors per job</li>
+                <li>Incentive paperwork guidance (EmPOWER, IRA, MEA)</li>
+                <li>Access to our project SOP checklists</li>
+                <li>Priority referrals in your service territory</li>
+            </ul>
+        </div>
+        
+        <div class="box blue">
+            <h2>What We Ask</h2>
+            <ul>
+                <li>EmPOWER certification (or in process)</li>
+                <li>Cold-climate heat pump installation experience</li>
+                <li>Commitment to quality (AHRI-matched systems)</li>
+                <li>Share our calculator with your existing leads</li>
+                <li>Report project outcomes (helps us improve)</li>
+                <li>Maintain professional communication standards</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="highlight-box">
+        <h2>The Opportunity</h2>
+        <div class="stats-row">
+            <div class="stat">
+                <div class="stat-value">$80B</div>
+                <div class="stat-label">Maryland electrification market (2024-2040)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">65%</div>
+                <div class="stat-label">Heat pump sales target by 2030</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">18mo</div>
+                <div class="stat-label">Window before competency is table stakes</div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>How It Works</h3>
+    <div class="process-steps">
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-title">Property Owner Finds Us</div>
+            <div class="step-desc">Through search, referral, or housing authority</div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-title">They Complete Calculator</div>
+            <div class="step-desc">We capture property details & incentive eligibility</div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-title">We Qualify the Lead</div>
+            <div class="step-desc">Verify intent, timeline, and budget alignment</div>
+        </div>
+        <div class="step">
+            <div class="step-num">4</div>
+            <div class="step-title">You Get the Referral</div>
+            <div class="step-desc">Warm intro with full project context</div>
+        </div>
+    </div>
+    
+    <div class="requirements">
+        <h3>⚡ Partner Requirements</h3>
+        <ul>
+            <li><strong>EmPOWER Participating Contractor</strong> (BGE, Pepco, Potomac Edison, or SMECO)</li>
+            <li><strong>Cold-climate heat pump experience</strong> (Mitsubishi Hyper-Heat, Daikin, Fujitsu, or equivalent)</li>
+            <li><strong>Manual J/S/D capability</strong> (proper load calculations, not rule-of-thumb sizing)</li>
+            <li><strong>Insurance and licensing</strong> (Maryland HVACR license, general liability, workers comp)</li>
+        </ul>
+    </div>
+    
+    <h3>Why Partner vs. Find Your Own Leads?</h3>
+    <div class="two-col">
+        <div>
+            <p><strong>Traditional lead gen:</strong></p>
+            <ul style="font-size: 10pt; padding-left: 20px; color: #64748b;">
+                <li>$50-150 per lead</li>
+                <li>Shared with 3-5 other contractors</li>
+                <li>Cold — they just filled out a form</li>
+                <li>No incentive pre-qualification</li>
+                <li>You handle all education</li>
+            </ul>
+        </div>
+        <div>
+            <p><strong>MBRACE referrals:</strong></p>
+            <ul style="font-size: 10pt; padding-left: 20px; color: #22c55e;">
+                <li>Performance-based (we succeed when you do)</li>
+                <li>Exclusive to your territory</li>
+                <li>Warm — they've seen their incentive report</li>
+                <li>Pre-qualified for programs</li>
+                <li>Educated on timeline and process</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="cta-box">
+        <h2>Ready to Partner?</h2>
+        <p>We're building a network of certified contractors across Maryland. Limited spots per territory.</p>
+        <div class="cta-contact">
+            <div>📧 <span>partners@mbrace.io</span></div>
+            <div>📞 <span>(XXX) XXX-XXXX</span></div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        MBRACE Intelligence • Maryland Building Electrification Data • mbrace.io<br>
+        We're an intelligence service, not a contractor. We help property owners navigate incentives and connect them with qualified installers.
+    </div>
+</body>
+</html>
