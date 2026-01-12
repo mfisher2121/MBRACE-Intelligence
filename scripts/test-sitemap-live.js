@@ -59,9 +59,6 @@ async function testSitemapAccessibility() {
     if (contentType && contentType.startsWith('application/xml')) {
       console.log(`✅ PASS: Content-Type is ${contentType}\n`);
       passed++;
-    } else if (contentType && contentType.includes('xml')) {
-      console.log(`⚠️  WARNING: Content-Type is ${contentType} (expected application/xml)\n`);
-      passed++;
     } else {
       console.log(`⚠️  WARNING: Content-Type is ${contentType} (expected application/xml)\n`);
       passed++;
