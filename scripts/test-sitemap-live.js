@@ -56,12 +56,14 @@ async function testSitemapAccessibility() {
     // Test 2: Content-Type header
     console.log('Test 2: Correct Content-Type header');
     const contentType = response.headers['content-type'];
-    if (contentType && (contentType.includes('xml') || contentType.includes('text/xml') || contentType.includes('application/xml'))) {
+    if (contentType && contentType.startsWith('application/xml')) {
       console.log(`✅ PASS: Content-Type is ${contentType}\n`);
       passed++;
+    } else if (contentType && contentType.includes('xml')) {
+      console.log(`⚠️  WARNING: Content-Type is ${contentType} (expected application/xml)\n`);
+      passed++;
     } else {
-      console.log(`⚠️  WARNING: Content-Type is ${contentType} (expected XML)\n`);
-      // Don't fail, just warn
+      console.log(`⚠️  WARNING: Content-Type is ${contentType} (expected application/xml)\n`);
       passed++;
     }
     

@@ -12,7 +12,6 @@ const path = require('path');
 
 const DOMAIN = 'https://mbraceintelligence.com';
 const SITEMAP_PATH = path.join(__dirname, '..', 'public', 'sitemap.xml');
-const CURRENT_DATE = new Date().toISOString().split('T')[0];
 
 // Define all routes with their metadata
 const routes = [
@@ -52,6 +51,7 @@ const routes = [
  * Generate sitemap XML content
  */
 function generateSitemap() {
+  const currentDate = new Date().toISOString().split('T')[0];
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
   
@@ -59,7 +59,7 @@ function generateSitemap() {
     xml += '  \n';
     xml += '  <url>\n';
     xml += `    <loc>${DOMAIN}${route.path}</loc>\n`;
-    xml += `    <lastmod>${CURRENT_DATE}</lastmod>\n`;
+    xml += `    <lastmod>${currentDate}</lastmod>\n`;
     xml += `    <changefreq>${route.changefreq}</changefreq>\n`;
     xml += `    <priority>${route.priority.toFixed(1)}</priority>\n`;
     xml += '  </url>\n';
