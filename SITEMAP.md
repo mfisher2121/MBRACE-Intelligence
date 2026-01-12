@@ -62,7 +62,7 @@ This will:
 
 ### Validate Sitemap
 
-To validate the existing sitemap:
+To validate the existing sitemap locally:
 
 ```bash
 npm run test:sitemap
@@ -77,6 +77,23 @@ This runs 8 validation tests:
 6. Required elements present
 7. Balanced XML tags
 8. Reasonable file size
+
+### Test Live Deployment
+
+To test the sitemap after deployment:
+
+```bash
+npm run test:sitemap:live
+```
+
+This checks:
+1. Sitemap URL is accessible (HTTP 200)
+2. Correct Content-Type header
+3. Valid XML structure
+4. Contains URL entries
+5. Homepage is present
+6. Reasonable file size
+7. Referenced in robots.txt
 
 ### Build Process
 
