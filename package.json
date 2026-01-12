@@ -8,7 +8,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
 
-    "build": "expo export:web",
+    "build": "npm run generate-sitemap && expo export:web",
+    "generate-sitemap": "node scripts/generate-sitemap.js",
+    "validate-sitemap": "node scripts/generate-sitemap.js",
+    "test:sitemap": "node scripts/test-sitemap.js",
+    "test:sitemap:live": "node scripts/test-sitemap-live.js",
  
    "build:ios": "eas build --platform ios",
     "build:android": "eas build --platform android",

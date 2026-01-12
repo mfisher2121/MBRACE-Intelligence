@@ -203,3 +203,24 @@ Complete outreach system for institutional investors:
 ├── contractor_partnership_onepager.html  # Printable one-pager
 └── pe_outreach_sequence.md            # PE fund manager outreach
 ```
+
+---
+
+## SEO & Search Engine Optimization
+
+### Sitemap
+
+The site includes an automated sitemap for search engine discovery. See **[SITEMAP.md](./SITEMAP.md)** for complete documentation.
+
+**Quick commands:**
+- **Generate sitemap**: `npm run generate-sitemap`
+- **Validate sitemap**: `npm run test:sitemap`
+- **Build with sitemap**: `npm run build` (auto-generates sitemap)
+
+**After deployment:**
+- Verify at: https://mbraceintelligence.com/sitemap.xml
+- Submit to Google Search Console
+- Check robots.txt references: https://mbraceintelligence.com/robots.txt
+
+The sitemap includes all 19 pages across calculator flows, playbooks, intelligence dashboard, and static pages.
+
