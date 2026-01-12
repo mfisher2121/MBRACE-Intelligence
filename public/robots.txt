@@ -1,0 +1,11 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://mbraceintelligence.com/sitemap.xml
+
